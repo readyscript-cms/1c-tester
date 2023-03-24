@@ -9,8 +9,9 @@
 </ol>
 <h3>Как использовать команду?</h3>
 <p>У команды есть 3 аргумента:</p>
+<code>-s - URL куда скрипт будет слать запросы</code>
 <code>-l - логин от админ. панели ReadyScript</code> <br/>
 <code>-p - пароль от админ. панели</code> <br/>
 <code>-t - тип выгрузки (может быть sale или catalog), также можно использовать --all для выгрузки обоих</code>
 <p>Например</p>
-<code>php 1cexchange.php -l example@gmail.com -p qwerty -t catalog</code><br/>
+<code>php 1cexchange.php -s https://example.com/integration -l example@gmail.com -p qwerty -t catalog</code><br/>
