@@ -39,7 +39,7 @@ class Auth extends Process
 
             $this->client = new Client([
                 'base_uri' => $this->parser->getParam('s'),
-                'timeout' => 2.0,
+                'timeout' => 10,
                 'headers' => [
                     'Cookie' => $cookieName.'='.$cookieValue
                 ]
