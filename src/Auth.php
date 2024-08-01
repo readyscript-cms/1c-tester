@@ -33,13 +33,13 @@ class Auth extends Process
                 Logger::log('Ошибка авторизации. Выходим из программы');
                 die();
             }
-
+            var_dump($contents);
             $cookieName = $explode[1];
             $cookieValue = $explode[2];
 
             $this->client = new Client([
                 'base_uri' => $this->parser->getParam('s'),
-                'timeout' => 10,
+                'timeout' => 1000,
                 'headers' => [
                     'Cookie' => $cookieName.'='.$cookieValue
                 ]

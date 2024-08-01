@@ -23,6 +23,7 @@ class ZipFileUpload extends Process
         $zipArchive->open($zipPath, \ZipArchive::CREATE);
 
         $scanned_directory = array_values(array_diff(scandir(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . $this->parser->getParam('t')), array('..', '.')));
+
         foreach ($scanned_directory as $file) {
             $zipArchive->addFile(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . $this->parser->getParam('t') . DIRECTORY_SEPARATOR . $file, $file);
         }
@@ -65,12 +66,12 @@ class ZipFileUpload extends Process
 
         $uploadMap = [];
 
-        while (true) {
-            $countInProcess = 0;
-            foreach ($scanned_directory as $item) {
-                if (isset($uploadMap[$item]) && $uploadMap[$item]) {
-                    continue;
-                }
+        foreach ($scanned_directory as $item) {
+            if (isset($uploadMap[$item]) && $uploadMap[$item]) {
+                continue;
+            }
+            while (true) {
+                $countInProcess = 0;
 
                 $response = $this->client->get('', [
                     'query' => [
@@ -87,20 +88,19 @@ class ZipFileUpload extends Process
                 }
 
                 if ($contents == 'progress') {
-                    $split = ResponseSplit::split($contents);
-                    Logger::log("Файл " . $item . ' обрабатывается, этап: ' . $split);
+                    Logger::log("Файл " . $item . ' обрабатывается, этап: ' . $contents);
                     $countInProcess++;
                 } else {
                     Logger::log("Файл "  . $item . ' успешно загружен');
                     $uploadMap[$item] = true; //значит файл загружен
                 }
-            }
 
-            if ($countInProcess == 0) {
-                break;
-            }
+                if ($countInProcess == 0) {
+                    break;
+                }
 
-            sleep(1);
+                sleep(1);
+            }
         }
 
         Logger::log("Программа завершила свою работу. Все файлы загружены");

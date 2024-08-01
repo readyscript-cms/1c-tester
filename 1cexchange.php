@@ -26,7 +26,7 @@ foreach ($type as $item) {
 
     $client = new Client([
         'base_uri' => $argvParser->getParam('s'),
-        'timeout' => 10,
+        'timeout' => 1000,
         'headers' => [
             'Authorization' => 'Basic ' . base64_encode($argvParser->getParam('l') . ':' . $argvParser->getParam('p'))
         ]
